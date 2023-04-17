@@ -15,10 +15,39 @@ const { NotImplementedError } = require('../extensions/index.js');
  * the output should be ["file", "file(1)", "image", "file(1)(1)", "file(2)"]
  *
  */
-function renameFiles(/* names */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+function getNumberRepeatedNames(name, array) {
+    return array.reduce(
+        (number, element) =>
+            (element.name === name.name) ? number + 1
+                               : number
+    , 1)
 }
+function renameFiles(names) {
+    names = names.map(
+        name => nameObj = {
+            name: name,
+            count: 1
+        }
+    )
+
+    names.forEach(
+        (name, index) =>  { 
+            let count = getNumberRepeatedNames(name, names.slice(0, index))
+            let newName = nameObj = {
+                name: name.name.concat( (count == 1) 
+                            ? '' 
+                            : `(${count - 1})` ),
+                count: count
+            }
+            
+            names[index] = newName
+        }
+    )
+    console.log(names)
+}
+
+
+console.log(renameFiles(["file", "file", "image", "file(1)", "file", 'file']))
 
 module.exports = {
   renameFiles
